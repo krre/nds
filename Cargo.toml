@@ -10,4 +10,5 @@ path = "src/nds/lib.rs"
 
 [dependencies]
 axum = "0.6.20"
+dotenv = "0.15.0"
 tokio = { version = "1.32.0", features = ["full"] }
