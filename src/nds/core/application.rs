@@ -7,6 +7,7 @@ use sqlx;
 use sqlx::postgres::PgPoolOptions;
 
 use axum::{routing::get, Router};
+use log::info;
 
 pub struct Config {}
 
@@ -35,7 +36,7 @@ impl Application {
             .map(|p| p.parse::<u16>())
             .unwrap()?;
 
-        println!("Norm Developer Server started on port {}", port);
+        info!("Norm Developer Server started on port {}", port);
 
         let app = Router::new().route("/", get(|| async { "Norm Developer Server" }));
 

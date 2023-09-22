@@ -11,5 +11,7 @@ path = "src/nds/lib.rs"
 [dependencies]
 axum = "0.6.20"
 dotenv = "0.15.0"
+env_logger = "0.10.0"
+log = "0.4.20"
 sqlx = { version = "0.7.1", features = ["postgres", "runtime-tokio-rustls"] }
 tokio = { version = "1.32.0", features = ["full"] }

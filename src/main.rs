@@ -4,6 +4,7 @@ use nds::core::application::Application;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    env_logger::builder().format_timestamp(None).init();
     dotenv::dotenv().ok();
 
     let app = Application::new()?;
