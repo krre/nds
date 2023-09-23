@@ -7,9 +7,18 @@ use sqlx;
 use sqlx::postgres::PgPoolOptions;
 
 use axum::{routing::get, Router};
+use clap::Parser;
 use log::info;
 
-pub struct Config {}
+#[derive(Parser, Debug)]
+pub struct Config {
+    #[clap(long, env)]
+    port: u16,
+    #[clap(long, env)]
+    database_url: String,
+    #[clap(long, env)]
+    rust_log: String,
+}
 
 pub struct Application {
     config: Config,
@@ -17,32 +26,25 @@ pub struct Application {
 
 impl Application {
     pub fn new() -> Result<Self, Box<dyn Error>> {
-        let config = Config {};
+        let config = Config::parse();
         Ok(Self { config })
     }
 
     pub async fn run(&self) -> Result<(), Box<dyn Error>> {
-        let database_url = std::env::var("DATABASE_URL")?;
-
         let pool = PgPoolOptions::new()
             .max_connections(5)
-            .connect(&database_url)
+            .connect(&self.config.database_url)
             .await?;
 
         sqlx::migrate!().run(&pool).await?;
 
-        let port = std::env::var("PORT")
-            .ok()
-            .map(|p| p.parse::<u16>())
-            .unwrap()?;
-
-        info!("Norm Developer Server started on port {}", port);
+        info!("Norm Developer Server started on port {}", self.config.port);
 
         let app = Router::new().route("/", get(|| async { "Norm Developer Server" }));
 
         axum::Server::bind(&SocketAddr::new(
             IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)),
-            port,
+            self.config.port,
         ))
         .serve(app.into_make_service())
         .await?;
