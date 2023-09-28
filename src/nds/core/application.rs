@@ -6,9 +6,10 @@ use std::{
 use sqlx;
 use sqlx::postgres::PgPoolOptions;
 
-use axum::{routing::get, Router};
 use clap::Parser;
 use log::info;
+
+use crate::core::router;
 
 #[derive(Parser, Debug)]
 pub struct Config {
@@ -40,13 +41,13 @@ impl Application {
 
         info!("Norm Developer Server started on port {}", self.config.port);
 
-        let app = Router::new().route("/", get(|| async { "Norm Developer Server" }));
+        let router = router::Router::new(pool);
 
         axum::Server::bind(&SocketAddr::new(
             IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)),
             self.config.port,
         ))
-        .serve(app.into_make_service())
+        .serve(router.into_make_service())
         .await?;
         Ok(())
     }
