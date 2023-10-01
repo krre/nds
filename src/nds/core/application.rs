@@ -39,7 +39,7 @@ impl Application {
 
         sqlx::migrate!().run(&pool).await?;
 
-        info!("Norm Developer Server started on port {}", self.config.port);
+        info!("Norm developer server started on port {}", self.config.port);
 
         let router = router::Router::new(pool);
 
