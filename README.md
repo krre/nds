@@ -1,2 +1,2 @@
 # Norm development server
-Backend for developing [Norm](https://github.com/krre/norm) projects.
+Backend for managing Norm projects.
