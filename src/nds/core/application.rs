@@ -46,12 +46,14 @@ impl Application {
 
         let router = router::Router::new(pool);
 
-        axum::Server::bind(&SocketAddr::new(
+        let listener = tokio::net::TcpListener::bind(&SocketAddr::new(
             IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)),
             self.config.port,
         ))
-        .serve(router.into_make_service())
         .await?;
+
+        axum::serve(listener, router.into_make_service()).await?;
+
         Ok(())
     }
 

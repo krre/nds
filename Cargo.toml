@@ -9,10 +9,10 @@ name = "nds"
 path = "src/nds/lib.rs"
 
 [dependencies]
-axum = "0.6.20"
-clap = { version = "4.4.4", features = ["env", "derive"] }
+axum = "0.8.3"
+clap = { version = "4.5.37", features = ["env", "derive"] }
 dotenv = "0.15.0"
-env_logger = "0.10.0"
-log = "0.4.20"
-sqlx = { version = "0.7.1", features = ["postgres", "runtime-tokio-rustls"] }
-tokio = { version = "1.32.0", features = ["full"] }
+env_logger = "0.11.8"
+log = "0.4.27"
+sqlx = { version = "0.8.5", features = ["postgres", "runtime-tokio-rustls"] }
+tokio = { version = "1.44.2", features = ["full"] }
